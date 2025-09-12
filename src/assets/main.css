@@ -1,0 +1,102 @@
+@import './base.css';
+@import './utilities.css';
+
+#app {
+  font-weight: normal;
+}
+
+a,
+.link-primary {
+  text-decoration: none;
+  color: var(--color-primary);
+  transition: var(--transition-base);
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+}
+
+.link-secondary {
+  color: var(--color-secondary);
+}
+
+.link-subtle {
+  color: var(--color-text-secondary);
+}
+
+@media (hover: hover) {
+  a:hover,
+  .link-primary:hover {
+    background-color: var(--color-primary-subtle);
+    color: var(--color-primary-dark);
+  }
+
+  .link-secondary:hover {
+    background-color: var(--color-secondary-subtle);
+    color: var(--color-secondary-dark);
+  }
+
+  .link-subtle:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-primary);
+  }
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.page-header {
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section-spacing {
+  margin-bottom: var(--space-8);
+}
+
+.status-success {
+  color: var(--color-success);
+  background-color: var(--color-success-subtle);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+.status-error {
+  color: var(--color-error);
+  background-color: var(--color-error-subtle);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+.status-warning {
+  color: var(--color-warning);
+  background-color: var(--color-warning-subtle);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+.status-info {
+  color: var(--color-info);
+  background-color: var(--color-info-subtle);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
