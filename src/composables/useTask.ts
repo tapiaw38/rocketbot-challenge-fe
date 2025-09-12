@@ -1,72 +1,73 @@
-import { inject } from 'vue'
-import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 import { useTaskStore } from '@/stores/taskStore'
-import type { ITaskService } from '@/services/task/taskService'
+import { services } from '@/services'
 
 export const useTask = () => {
-  const services = inject<{ task: ITaskService }>('services')
-  if (!services) throw new Error('Services not provided')
+  const taskStore = useTaskStore(services.task)
+  const store = taskStore()
 
-  const taskService = services.task
+  // Computed properties
+  const tasks = computed(() => {
+    const tanstackData = store.getAllTasksQuery.data
+    return store.tasks.length > 0 ? store.tasks : Array.isArray(tanstackData) ? tanstackData : []
+  })
 
-  const store = useTaskStore(taskService)
-  const taskStore = store()
+  const loading = computed(
+    () =>
+      store.loading ||
+      store.getAllTasksQuery.isLoading ||
+      store.createTaskMutation.isPending ||
+      store.updateTaskMutation.isPending ||
+      store.deleteTaskMutation.isPending,
+  )
 
-  const {
-    tasks,
-    tasksCount,
-    tasksByCategory,
-    isGetAllTasksPending,
-    isGetAllTasksSuccess,
-    isGetAllTasksError,
-    getAllTasksError,
-    isCreateTaskPending,
-    isCreateTaskSuccess,
-    isCreateTaskError,
-    createTaskError,
-    isUpdateTaskPending,
-    isUpdateTaskSuccess,
-    isUpdateTaskError,
-    updateTaskError,
-    isDeleteTaskPending,
-    isDeleteTaskSuccess,
-    isDeleteTaskError,
-    deleteTaskError,
-  } = storeToRefs(taskStore)
+  const error = computed(
+    () =>
+      store.error ||
+      store.getAllTasksQuery.error?.message ||
+      store.createTaskMutation.error?.message ||
+      store.updateTaskMutation.error?.message ||
+      store.deleteTaskMutation.error?.message ||
+      null,
+  )
 
   return {
-    // State
+    // Computed state
     tasks,
-    tasksCount,
-    tasksByCategory,
+    loading,
+    error,
 
-    // Loading states
-    isGetAllTasksPending,
-    isGetAllTasksSuccess,
-    isGetAllTasksError,
-    getAllTasksError,
-    isCreateTaskPending,
-    isCreateTaskSuccess,
-    isCreateTaskError,
-    createTaskError,
-    isUpdateTaskPending,
-    isUpdateTaskSuccess,
-    isUpdateTaskError,
-    updateTaskError,
-    isDeleteTaskPending,
-    isDeleteTaskSuccess,
-    isDeleteTaskError,
-    deleteTaskError,
+    // Getters
+    tasksCount: store.tasksCount,
+    tasksByCategory: store.tasksByCategory,
+
+    // TanStack Query states
+    isGetAllTasksPending: store.getAllTasksQuery.isPending,
+    isGetAllTasksSuccess: store.getAllTasksQuery.isSuccess,
+    isGetAllTasksError: store.getAllTasksQuery.isError,
+    getAllTasksError: store.getAllTasksQuery.error,
+    isCreateTaskPending: store.createTaskMutation.isPending,
+    isCreateTaskSuccess: store.createTaskMutation.isSuccess,
+    isCreateTaskError: store.createTaskMutation.isError,
+    createTaskError: store.createTaskMutation.error,
+    isUpdateTaskPending: store.updateTaskMutation.isPending,
+    isUpdateTaskSuccess: store.updateTaskMutation.isSuccess,
+    isUpdateTaskError: store.updateTaskMutation.isError,
+    updateTaskError: store.updateTaskMutation.error,
+    isDeleteTaskPending: store.deleteTaskMutation.isPending,
+    isDeleteTaskSuccess: store.deleteTaskMutation.isSuccess,
+    isDeleteTaskError: store.deleteTaskMutation.isError,
+    deleteTaskError: store.deleteTaskMutation.error,
 
     // Actions
-    fetchTasks: taskStore.fetchTasks,
-    createTask: taskStore.createTask,
-    updateTask: taskStore.updateTask,
-    deleteTask: taskStore.deleteTask,
-    getTaskById: taskStore.getTaskById,
-    clearError: taskStore.clearError,
+    fetchTasks: store.fetchTasks,
+    createTask: store.createTask,
+    updateTask: store.updateTask,
+    deleteTask: store.deleteTask,
+    getTaskById: store.getTaskById,
+    clearError: store.clearError,
 
     // Raw store for advanced usage
-    store: taskStore,
+    store,
   }
 }

@@ -17,19 +17,13 @@ export const TASK_CATEGORIES: Category[] = [
   { label: 'Others', value: 'others' },
 ]
 
-export const CATEGORY_LABELS: Record<string, string> = {
-  work: 'Work',
-  personal: 'Personal',
-  study: 'Study',
-  home: 'Home',
-  health: 'Health',
-  shopping: 'Shopping',
-  travel: 'Travel',
-  finance: 'Finance',
-  exercise: 'Exercise',
-  entertainment: 'Entertainment',
-  others: 'Others',
-}
+export const CATEGORY_LABELS: Record<string, string> = TASK_CATEGORIES.reduce(
+  (acc, { value, label }) => {
+    acc[value] = label
+    return acc
+  },
+  {} as Record<string, string>,
+)
 
 export const getCategoryLabel = (category: string): string => {
   return CATEGORY_LABELS[category] || category.charAt(0).toUpperCase() + category.slice(1)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useToast } from 'primevue/usetoast'
 import { useTask } from '@/composables/useTask'
 import TaskForm from '@/components/task/TaskForm.vue'
@@ -8,27 +8,8 @@ import TaskStats from '@/components/task/TaskStats.vue'
 import Toast from 'primevue/toast'
 import type { Task, TaskInput } from '@/types/task'
 
-const {
-  tasks,
-  isGetAllTasksPending,
-  isCreateTaskPending,
-  isUpdateTaskPending,
-  isDeleteTaskPending,
-  getAllTasksError,
-  fetchTasks,
-  createTask,
-  updateTask,
-  deleteTask,
-  clearError,
-} = useTask()
-
-const loading = computed(
-  () =>
-    isGetAllTasksPending.value ||
-    isCreateTaskPending.value ||
-    isUpdateTaskPending.value ||
-    isDeleteTaskPending.value,
-)
+const { tasks, loading, error, fetchTasks, createTask, updateTask, deleteTask, clearError } =
+  useTask()
 
 const editingTask = ref<Task | null>(null)
 const toast = useToast()
@@ -130,7 +111,7 @@ const handleTaskDelete = async (id: number) => {
           <TaskList
             :tasks="tasks"
             :loading="loading"
-            :error="getAllTasksError?.message || null"
+            :error="error"
             @edit="handleTaskEdit"
             @delete="handleTaskDelete"
             @clear-error="clearError"

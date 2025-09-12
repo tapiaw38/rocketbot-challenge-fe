@@ -76,6 +76,7 @@ const getCategoryColorClass = (index: number) => {
             </template>
           </Card>
         </div>
+
         <div class="col-12" v-if="categoriesCount > 0">
           <Card class="card-elevated">
             <template #title>

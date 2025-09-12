@@ -1,47 +1,75 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { ITaskService } from '@/services/task/taskService'
-import type { TaskInput } from '@/types/task'
+import type { Task, TaskInput } from '@/types/task'
 import { useTaskQueries } from '@/queries/task'
-import { useTaskCategories } from '@/composables/useTaskCategories'
 
 export const useTaskStore = (taskService: ITaskService) =>
   defineStore('task', () => {
-    const {
-      getAllTasksQuery,
-      getTaskByIdQuery,
-      createTaskMutation,
-      updateTaskMutation,
-      deleteTaskMutation,
-    } = useTaskQueries(taskService)
+    const { getAllTasksQuery, createTaskMutation, updateTaskMutation, deleteTaskMutation } =
+      useTaskQueries(taskService)
 
-    const { groupTasksByCategory } = useTaskCategories()
+    const loading = ref(false)
+    const tasks = ref<Task[]>([])
+    const error = computed(
+      () =>
+        getAllTasksQuery.error.value?.message ||
+        createTaskMutation.error.value?.message ||
+        updateTaskMutation.error.value?.message ||
+        deleteTaskMutation.error.value?.message ||
+        null,
+    )
+
+    const tasksCount = computed(() => tasks.value.length)
+    const tasksByCategory = computed(() => {
+      const grouped = tasks.value.reduce(
+        (acc, task) => {
+          if (!acc[task.category]) {
+            acc[task.category] = []
+          }
+          acc[task.category].push(task)
+          return acc
+        },
+        {} as Record<string, Task[]>,
+      )
+      return grouped
+    })
+
+    const fetchTasks = async () => {
+      loading.value = true
+      try {
+        const result = await taskService.getAllTasks()
+        tasks.value = result
+
+        await getAllTasksQuery.refetch()
+      } catch (error) {
+        console.error('fetchTasks error:', error)
+        throw error
+      } finally {
+        loading.value = false
+      }
+    }
 
     const createTask = async (taskInput: TaskInput) => {
-      return await createTaskMutation.mutateAsync(taskInput)
+      const result = await createTaskMutation.mutateAsync(taskInput)
+      await fetchTasks()
+      return result
     }
 
     const updateTask = async (id: number, taskInput: TaskInput) => {
-      return await updateTaskMutation.mutateAsync({ id, taskInput })
+      const result = await updateTaskMutation.mutateAsync({ id, taskInput })
+      await fetchTasks()
+      return result
     }
 
     const deleteTask = async (id: number) => {
-      return await deleteTaskMutation.mutateAsync(id)
+      await deleteTaskMutation.mutateAsync(id)
+      await fetchTasks()
     }
 
     const getTaskById = (id: number) => {
-      return getTaskByIdQuery(id)
+      return tasks.value.find((task) => task.id === id)
     }
-
-    const fetchTasks = async () => {
-      return await getAllTasksQuery.refetch()
-    }
-
-    const tasks = computed(() => getAllTasksQuery.data.value || [])
-    const tasksCount = computed(() => tasks.value.length)
-    const tasksByCategory = computed(() => {
-      return groupTasksByCategory(tasks.value)
-    })
 
     const clearError = () => {
       createTaskMutation.reset()
@@ -52,29 +80,18 @@ export const useTaskStore = (taskService: ITaskService) =>
     return {
       // State
       tasks,
+      loading,
+      error,
+
+      // Getters
       tasksCount,
       tasksByCategory,
 
-      // Loading states
-      isGetAllTasksPending: getAllTasksQuery.isPending,
-      isGetAllTasksSuccess: getAllTasksQuery.isSuccess,
-      isGetAllTasksError: getAllTasksQuery.isError,
-      getAllTasksError: getAllTasksQuery.error,
-
-      isCreateTaskPending: createTaskMutation.isPending,
-      isCreateTaskSuccess: createTaskMutation.isSuccess,
-      isCreateTaskError: createTaskMutation.isError,
-      createTaskError: createTaskMutation.error,
-
-      isUpdateTaskPending: updateTaskMutation.isPending,
-      isUpdateTaskSuccess: updateTaskMutation.isSuccess,
-      isUpdateTaskError: updateTaskMutation.isError,
-      updateTaskError: updateTaskMutation.error,
-
-      isDeleteTaskPending: deleteTaskMutation.isPending,
-      isDeleteTaskSuccess: deleteTaskMutation.isSuccess,
-      isDeleteTaskError: deleteTaskMutation.isError,
-      deleteTaskError: deleteTaskMutation.error,
+      // TanStack Query objects for composable
+      getAllTasksQuery,
+      createTaskMutation,
+      updateTaskMutation,
+      deleteTaskMutation,
 
       // Actions
       fetchTasks,
@@ -83,14 +100,5 @@ export const useTaskStore = (taskService: ITaskService) =>
       deleteTask,
       getTaskById,
       clearError,
-
-      // Raw queries for advanced usage
-      queries: {
-        getAllTasksQuery,
-        getTaskByIdQuery,
-        createTaskMutation,
-        updateTaskMutation,
-        deleteTaskMutation,
-      },
     }
   })
