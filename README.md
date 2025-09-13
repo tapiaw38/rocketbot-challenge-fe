@@ -58,6 +58,7 @@ src/
 - Node.js 20+ or 22+
 - Yarn package manager
 - Backend API running on <http://localhost:8000>
+- Docker and Docker Compose (for development)
 
 ## Installation
 
@@ -88,13 +89,33 @@ src/
 
 ## Development
 
-### Start the development server
+### Option 1: Local Development (Traditional)
+
+#### Start the development server
 
 ```bash
 yarn dev
 ```
 
 The application will be available at <http://localhost:5173>
+
+### Option 2: Docker Development
+
+```bash
+# Build the image
+docker-compose build
+
+# Start the application
+docker-compose up
+```
+
+**Access the application**: <http://localhost:5173>
+
+**Stop the application**:
+
+```bash
+docker-compose down
+```
 
 ### Build for production
 
@@ -225,6 +246,22 @@ VITE_API_BASE_URL=http://localhost:8000
 | `yarn format`     | Format code with Prettier    |
 | `yarn type-check` | Run TypeScript type checking |
 
+## Docker Commands
+
+```bash
+# Build the image
+docker-compose build
+
+# Start the application
+docker-compose up
+
+# Stop the application
+docker-compose down
+
+# View logs
+docker-compose logs -f
+```
+
 ## Technologies Used
 
 - **Vue 3.5+**: Progressive JavaScript framework
@@ -243,6 +280,15 @@ VITE_API_BASE_URL=http://localhost:8000
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
+
+## Docker Setup
+
+Simple Docker configuration for development:
+
+- **Base Image**: Node.js 20 Alpine
+- **Port**: 5173
+- **Hot Reload**: Enabled with volume mounts
+- **Environment**: VITE_API_BASE_URL=<http://localhost:8000>
 
 ## Contributing
 
