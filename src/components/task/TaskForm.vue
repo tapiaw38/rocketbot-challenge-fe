@@ -55,7 +55,10 @@ watch(
 
 const handleSubmit = () => {
   if (!form.value.title.trim() || !form.value.category.trim()) return
-  emit('submit', { ...form.value })
+  emit('submit', { 
+    title: form.value.title.trim(),
+    category: form.value.category.trim()
+  })
   if (!isEditing.value) {
     resetForm()
   }

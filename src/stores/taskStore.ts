@@ -72,28 +72,25 @@ export const useTaskStore = (taskService: ITaskService) =>
     }
 
     const clearError = () => {
+      getAllTasksQuery.refetch()
       createTaskMutation.reset()
       updateTaskMutation.reset()
       deleteTaskMutation.reset()
     }
 
     return {
-      // State
       tasks,
       loading,
       error,
 
-      // Getters
       tasksCount,
       tasksByCategory,
 
-      // TanStack Query objects for composable
       getAllTasksQuery,
       createTaskMutation,
       updateTaskMutation,
       deleteTaskMutation,
 
-      // Actions
       fetchTasks,
       createTask,
       updateTask,

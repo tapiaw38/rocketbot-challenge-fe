@@ -14,70 +14,74 @@ This is the frontend application for the RocketBot Challenge built with Vue 3, P
 
 ## Task Management Features
 
-- ✅ List all tasks from the API
-- ✅ Add new tasks with title and category
-- ✅ Edit existing tasks
-- ✅ Delete tasks with confirmation
-- ✅ Real-time statistics (total tasks, categories, etc.)
-- ✅ Error handling and loading states
-- ✅ Responsive design for mobile and desktop
+- List all tasks from the API
+- Add new tasks with title and category
+- Edit existing tasks
+- Delete tasks with confirmation
+- Real-time statistics (total tasks, categories, etc.)
+- Error handling and loading states
+- Responsive design for mobile and desktop
 
 ## Project Structure
 
-```
+```bash
 src/
 ├── api/
 │   └── request/
-│       └── client.ts           # Axios HTTP client configuration
+│       └── client.ts
 ├── components/
 │   └── task/
-│       ├── TaskForm.vue        # Form for creating/editing tasks
-│       ├── TaskList.vue        # List of tasks with actions
-│       └── TaskStats.vue       # Statistics component
+│       ├── TaskForm.vue
+│       ├── TaskList.vue
+│       └── TaskStats.vue
 ├── composables/
-│   └── useTask.ts             # Composable for task store
+│   └── useTask.ts
 ├── router/
-│   └── index.ts               # Vue Router configuration
+│   └── index.ts
 ├── services/
 │   ├── task/
-│   │   ├── taskService.ts     # Task API service
-│   │   └── index.ts           # Service exports
-│   └── index.ts               # Main services export
+│   │   ├── taskService.ts
+│   │   └── index.ts
+│   └── index.ts
 ├── stores/
-│   └── taskStore.ts           # Pinia store for task state
+│   └── taskStore.ts
 ├── types/
-│   └── task.ts                # TypeScript interfaces
+│   └── task.ts
 ├── views/
-│   └── TasksView.vue          # Main tasks view
-├── App.vue                    # Root component
-└── main.ts                    # Application entry point
+│   └── TasksView.vue
+├── App.vue
+└── main.ts
 ```
 
 ## Requirements
 
 - Node.js 20+ or 22+
 - Yarn package manager
-- Backend API running on http://localhost:8000
+- Backend API running on <http://localhost:8000>
 
 ## Installation
 
 1. **Clone the repository**:
+
    ```bash
    git clone <repository-url>
    cd rocketbot-challenge-fe
    ```
 
 2. **Install dependencies**:
+
    ```bash
    yarn install
    ```
 
 3. **Set up environment variables**:
+
    ```bash
    cp env.example .env
    ```
-   
+
    Edit `.env` if needed:
+
    ```env
    VITE_API_BASE_URL=http://localhost:8000
    ```
@@ -90,7 +94,7 @@ src/
 yarn dev
 ```
 
-The application will be available at http://localhost:5173
+The application will be available at <http://localhost:5173>
 
 ### Build for production
 
@@ -127,6 +131,7 @@ yarn format
 This project demonstrates how Pinia is used to manage global state in a Vue 3 application:
 
 ### 1. **Store Structure**
+
 ```typescript
 // stores/taskStore.ts
 export const useTaskStore = (taskService: ITaskService) =>
@@ -135,19 +140,24 @@ export const useTaskStore = (taskService: ITaskService) =>
     const tasks = ref<Task[]>([])
     const loading = ref(false)
     const error = ref<string | null>(null)
-    
+
     // Computed getters
     const tasksCount = computed(() => tasks.value.length)
-    
+
     // Actions for state mutations
-    const fetchTasks = async () => { /* ... */ }
-    const createTask = async (taskInput: TaskInput) => { /* ... */ }
-    
+    const fetchTasks = async () => {
+      /* ... */
+    }
+    const createTask = async (taskInput: TaskInput) => {
+      /* ... */
+    }
+
     return { tasks, loading, error, tasksCount, fetchTasks, createTask }
   })
 ```
 
 ### 2. **Composable Pattern**
+
 ```typescript
 // composables/useTask.ts
 export const useTask = () => {
@@ -157,6 +167,7 @@ export const useTask = () => {
 ```
 
 ### 3. **Component Usage**
+
 ```vue
 <!-- In any component -->
 <script setup lang="ts">
@@ -171,7 +182,7 @@ const { tasks, loading, fetchTasks, createTask } = useTask()
 The Pinia store automatically shares state across all components that use it:
 
 - **TaskForm.vue**: Uses `createTask` and `updateTask` actions
-- **TaskList.vue**: Displays `tasks` state and uses `deleteTask` action  
+- **TaskList.vue**: Displays `tasks` state and uses `deleteTask` action
 - **TaskStats.vue**: Computes statistics from `tasks` state
 - **TasksView.vue**: Coordinates between all components using the shared store
 
@@ -204,14 +215,14 @@ VITE_API_BASE_URL=http://localhost:8000
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `yarn dev` | Start development server |
-| `yarn build` | Build for production |
-| `yarn preview` | Preview production build |
-| `yarn test:unit` | Run unit tests |
-| `yarn lint` | Lint and fix code |
-| `yarn format` | Format code with Prettier |
+| Command           | Description                  |
+| ----------------- | ---------------------------- |
+| `yarn dev`        | Start development server     |
+| `yarn build`      | Build for production         |
+| `yarn preview`    | Preview production build     |
+| `yarn test:unit`  | Run unit tests               |
+| `yarn lint`       | Lint and fix code            |
+| `yarn format`     | Format code with Prettier    |
 | `yarn type-check` | Run TypeScript type checking |
 
 ## Technologies Used
