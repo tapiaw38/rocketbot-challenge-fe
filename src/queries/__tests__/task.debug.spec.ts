@@ -36,10 +36,11 @@ describe('useTaskQueries Debug', () => {
       },
     })
 
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const vm = wrapper.vm as any
     console.log('VM keys:', Object.keys(vm))
     console.log('getAllTasksQuery:', vm.getAllTasksQuery)
-    
+
     expect(vm).toBeTruthy()
   })
 })

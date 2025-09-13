@@ -42,10 +42,8 @@ describe('useTaskQueries', () => {
 
       const vm = wrapper.vm as any
 
-      // The composable should return properties directly on the VM
       expect(vm.getAllTasksQuery).toBeDefined()
 
-      // Wait for query to complete
       await new Promise((resolve) => setTimeout(resolve, 100))
 
       expect(mockTaskService.getAllTasks).toHaveBeenCalled()
@@ -66,10 +64,8 @@ describe('useTaskQueries', () => {
 
       const vm = wrapper.vm as any
 
-      // The composable should return properties directly on the VM
       expect(vm.getAllTasksQuery).toBeDefined()
 
-      // Wait for query to complete
       await new Promise((resolve) => setTimeout(resolve, 100))
 
       expect(mockTaskService.getAllTasks).toHaveBeenCalled()
@@ -86,8 +82,7 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // The query key is internal to TanStack Query, we can't access it directly
-      // Instead, we verify the query is properly configured by checking its existence
+
       expect(vm.getAllTasksQuery).toBeDefined()
       expect(typeof vm.getAllTasksQuery.refetch).toBe('function')
     })
@@ -106,7 +101,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.getTaskByIdQuery directly instead of destructuring
 
       expect(typeof vm.getTaskByIdQuery).toBe('function')
     })
@@ -119,7 +113,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.getTaskByIdQuery directly instead of destructuring
 
       expect(typeof vm.getTaskByIdQuery).toBe('function')
     })
@@ -132,7 +125,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.getTaskByIdQuery directly instead of destructuring
 
       expect(typeof vm.getTaskByIdQuery).toBe('function')
     })
@@ -151,7 +143,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.createTaskMutation directly instead of destructuring
 
       const result = await vm.createTaskMutation.mutateAsync(taskInput)
 
@@ -174,7 +165,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.createTaskMutation directly instead of destructuring
 
       await vm.createTaskMutation.mutateAsync(taskInput)
 
@@ -193,7 +183,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.createTaskMutation directly instead of destructuring
 
       await expect(vm.createTaskMutation.mutateAsync(taskInput)).rejects.toThrow('Creation failed')
       expect(vm.createTaskMutation.isError.value).toBe(true)
@@ -215,7 +204,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.updateTaskMutation directly instead of destructuring
 
       const result = await vm.updateTaskMutation.mutateAsync({ id: taskId, taskInput })
 
@@ -240,7 +228,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.updateTaskMutation directly instead of destructuring
 
       await vm.updateTaskMutation.mutateAsync({ id: taskId, taskInput })
 
@@ -261,7 +248,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.updateTaskMutation directly instead of destructuring
 
       await expect(vm.updateTaskMutation.mutateAsync({ id: taskId, taskInput })).rejects.toThrow(
         'Update failed',
@@ -284,7 +270,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.deleteTaskMutation directly instead of destructuring
 
       const result = await vm.deleteTaskMutation.mutateAsync(taskId)
 
@@ -308,7 +293,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.deleteTaskMutation directly instead of destructuring
 
       await vm.deleteTaskMutation.mutateAsync(taskId)
 
@@ -328,7 +312,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.deleteTaskMutation directly instead of destructuring
 
       await expect(vm.deleteTaskMutation.mutateAsync(taskId)).rejects.toThrow('Delete failed')
       expect(vm.deleteTaskMutation.isError.value).toBe(true)
@@ -345,8 +328,7 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // The staleTime is internal to TanStack Query configuration
-      // Instead, we verify the query is properly configured by checking its existence
+
       expect(vm.getAllTasksQuery).toBeDefined()
       expect(typeof vm.getAllTasksQuery.refetch).toBe('function')
     })
@@ -364,7 +346,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.getAllTasksQuery directly instead of destructuring
 
       await new Promise((resolve) => setTimeout(resolve, 100))
 
@@ -383,7 +364,6 @@ describe('useTaskQueries', () => {
       })
 
       const vm = wrapper.vm as any
-      // Use vm.createTaskMutation directly instead of destructuring
 
       await expect(vm.createTaskMutation.mutateAsync(mockTaskInput())).rejects.toThrow(
         'timeout of 5000ms exceeded',

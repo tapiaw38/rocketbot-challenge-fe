@@ -8,11 +8,11 @@ describe('TaskList Debug', () => {
     const wrapper = createWrapper(TaskList, {
       props: { tasks },
     })
-    
+
     console.log('HTML Output:', wrapper.html())
     console.log('Find buttons:', wrapper.findAll('button').length)
     console.log('Find dataview:', wrapper.find('.p-dataview').exists())
-    
+
     expect(wrapper.vm).toBeTruthy()
   })
 })

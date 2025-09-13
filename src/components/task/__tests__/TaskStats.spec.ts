@@ -130,7 +130,6 @@ describe('TaskStats', () => {
         props: { tasks },
       })
 
-      // Should show Work (2) and Personal (1)
       expect(wrapper.text()).toContain('Work (2)')
       expect(wrapper.text()).toContain('Personal (1)')
     })
