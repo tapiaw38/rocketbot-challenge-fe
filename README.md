@@ -102,10 +102,8 @@ The application will be available at <http://localhost:5173>
 ### Option 2: Docker Development
 
 ```bash
-# Build the image
 docker-compose build
 
-# Start the application
 docker-compose up
 ```
 
@@ -249,16 +247,12 @@ VITE_API_BASE_URL=http://localhost:8000
 ## Docker Commands
 
 ```bash
-# Build the image
 docker-compose build
 
-# Start the application
 docker-compose up
 
-# Stop the application
 docker-compose down
 
-# View logs
 docker-compose logs -f
 ```
 
