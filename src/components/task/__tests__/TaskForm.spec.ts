@@ -85,7 +85,9 @@ describe('TaskForm', () => {
         props: { editingTask },
       })
 
-      expect((wrapper.find('input[id="title"]').element as HTMLInputElement).value).toBe('Test Task')
+      expect((wrapper.find('input[id="title"]').element as HTMLInputElement).value).toBe(
+        'Test Task',
+      )
 
       await wrapper.setProps({ editingTask: null } as any)
 

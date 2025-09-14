@@ -15,7 +15,7 @@ import { ref } from 'vue'
 const mockUseTask = {
   tasks: ref(mockTasks(3)),
   loading: ref(false),
-  error: ref(null),
+  error: ref<string | null>(null),
   fetchTasks: vi.fn(),
   createTask: vi.fn(),
   updateTask: vi.fn(),
