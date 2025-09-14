@@ -12,7 +12,8 @@ export default mergeConfig(
       setupFiles: ['./src/test-utils/vitest.setup.ts'],
       coverage: {
         provider: 'v8',
-        reporter: ['text', 'json', 'html'],
+        reporter: ['text', 'json', 'html', 'lcov'],
+        reportsDirectory: './coverage',
         exclude: [
           'node_modules/',
           'src/test-utils/',
@@ -21,7 +22,18 @@ export default mergeConfig(
           '**/__tests__/**',
           '**/*.spec.*',
           '**/*.test.*',
+          'src/main.ts',
+          'src/env.d.ts',
         ],
+        include: ['src/**/*.{ts,vue}'],
+        thresholds: {
+          global: {
+            branches: 80,
+            functions: 80,
+            lines: 80,
+            statements: 80,
+          },
+        },
       },
     },
   }),
