@@ -29,15 +29,23 @@ jobs:
 
       - name: Run code formatting check
         run: yarn format:check
+        env:
+          VITE_API_BASE_URL: http://localhost:8000/
 
       - name: Run linting
         run: yarn lint:check
+        env:
+          VITE_API_BASE_URL: http://localhost:8000/
 
       - name: Run type checking
         run: yarn type-check
+        env:
+          VITE_API_BASE_URL: http://localhost:8000/
 
       - name: Run tests with coverage
         run: yarn test:coverage
+        env:
+          VITE_API_BASE_URL: http://localhost:8000/
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -67,6 +75,8 @@ jobs:
 
       - name: Build application
         run: yarn build
+        env:
+          VITE_API_BASE_URL: http://localhost:8000/
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
