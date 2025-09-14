@@ -125,7 +125,7 @@ const handleTaskDelete = async (id: number) => {
 <style scoped>
 .tasks-view {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-secondary-700) 100%);
+  background: var(--color-primary-600);
   padding: var(--space-8) 0;
 }
 </style>
