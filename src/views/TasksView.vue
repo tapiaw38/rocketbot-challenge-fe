@@ -89,7 +89,7 @@ const handleTaskDelete = async (id: number) => {
       <div class="page-header text-center">
         <h1 class="text-5xl font-bold text-white mb-4">Task Manager</h1>
         <p class="text-xl text-white leading-relaxed">
-          Manage your tasks with ease using Vue 3, Pinia, and TanStack Query
+          Manage your tasks with ease using Vue 3, TypeScript, Pinia, and TanStack Query
         </p>
       </div>
 
